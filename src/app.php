@@ -17,4 +17,10 @@ $app['twig'] = $app->extend('twig', function ($twig, $app) {
     return $twig;
 });
 
+$app['debug'] = true;
+
+$app['client'] = function() use($app) {
+    return new \GuzzleHttp\Client();
+};
+
 return $app;

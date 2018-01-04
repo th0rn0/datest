@@ -9,13 +9,29 @@ services:
       - api
     volumes:
       - .:/var/www
+    command: [nginx-debug, '-g', 'daemon off;']
+    networks:
+      - custom
   php:
     build: ./docker/php
     volumes:
       - .:/var/www
     working_dir: /var/www
+    links:
+      - "api"
+    depends_on:
+      - api
+    environment:
+      - API_URL=http://api:8888
+    networks:
+      - custom
   api:
     image:
       sbgtechtest/api:latest
     ports:
       - "8888-8890:8888-8890"
+    networks:
+      - custom
+networks:
+  custom:
+    external: false
