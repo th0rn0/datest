@@ -3,10 +3,10 @@ services:
   nginx:
     build: ./docker/nginx
     ports:
-#      - '8888:80'
       - '80:80'
     depends_on:
       - php
+      - api
     volumes:
       - .:/var/www
   php:
@@ -14,3 +14,8 @@ services:
     volumes:
       - .:/var/www
     working_dir: /var/www
+  api:
+    image:
+      sbgtechtest/api:latest
+    ports:
+      - "8888-8890:8888-8890"
