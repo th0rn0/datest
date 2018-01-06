@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "11fd4931bfba4a7a954d7d855fcdf4db",
-    "content-hash": "502946988b8ee4cc2463dedf2682013b",
+    "hash": "8db208dba6f64042bd8c43578d2aca8c",
+    "content-hash": "3ef73e37630c32f328ce225c7c59eb17",
     "packages": [
         {
             "name": "guzzlehttp/guzzle",
@@ -2608,16 +2608,16 @@
         },
         {
             "name": "symfony/var-dumper",
-            "version": "v3.4.2",
+            "version": "v3.4.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/var-dumper.git",
-                "reference": "757074cf71b952ce9e75b557538948811c2bf006"
+                "reference": "545be7e78ccbec43e599f10ff7500d0b09eda9d0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/757074cf71b952ce9e75b557538948811c2bf006",
-                "reference": "757074cf71b952ce9e75b557538948811c2bf006",
+                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/545be7e78ccbec43e599f10ff7500d0b09eda9d0",
+                "reference": "545be7e78ccbec43e599f10ff7500d0b09eda9d0",
                 "shasum": ""
             },
             "require": {
@@ -2673,7 +2673,7 @@
                 "debug",
                 "dump"
             ],
-            "time": "2017-12-11 22:06:16"
+            "time": "2018-01-03 17:14:19"
         },
         {
             "name": "symfony/web-profiler-bundle",

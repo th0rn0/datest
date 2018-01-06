@@ -19,8 +19,22 @@ class IndexController
     public function index() {
 
         $response = $this->client->get(getenv('API_URL') . '/football/live');
-        
-        return $this->twig->render('index.html.twig');
+        $body = json_decode($response->getBody()->getContents());
+        //DEBUG
+        // dump($body->events);
+        // die();
+
+        // Sort the events display order
+        usort($body->events, function($a, $b)
+        {
+            return $a->displayOrder < $b->displayOrder;
+            //return strcmp($a->displayOrder, $b->displayOrder);
+        });
+
+        return $this->twig->render('index.html.twig', array(
+            'events' => $body->events
+        ));
+
         return json_encode($response->getBody()->getContents());
 
         return $this->twig->render('index.html.twig', array(

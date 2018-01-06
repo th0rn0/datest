@@ -19,8 +19,6 @@ $app['twig'] = $app->extend('twig', function ($twig, $app) {
 
 $app['debug'] = true;
 
-$app['title'] = 'Skybet Test';
-
 $app['client'] = function() use($app) {
     return new \GuzzleHttp\Client();
 };
