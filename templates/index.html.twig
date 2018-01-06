@@ -14,43 +14,50 @@
     </header>
 
     <main role="main">
-    	<h1>Live Events</h1>
-      <div class="row">
-      	<table class="table">
-      		<thead>
-      			<tr>
-      				<th>Name</th>
-      				<th>Event</th>
-      				<th>Scores</th>
-      				<th>Teams</th>
-      				<th>Start</th>
-      			</tr>
-      		</thead>
-      		<tbody>
-      			{% for event in events %}
-      				<tr>
-		      			<td>{{ event.name }}</td>
-		      			<td>
-		      				{% if event.linkedEventTypeName is defined %}
-		      					{{ event.linkedEventTypeName }}
-		      				{% endif %}
-		      			</td>
-		      			<td>
-		      				{{ event.scores.home }}
-		      				{{ event.scores.away }}
-		      			</td>
-		      			<td>
-		      				{% for competitor in event.competitors %}
-		      					{{ competitor.name }}
-		      					{{ competitor.position }}
-		      				{% endfor %}
-		      			</td>
-		      			<td>{{ event.startTime|date('H:i') }}</td>
+    	<h1>Live Events</h1><small>display primary market</small>
+      	<div class="row">
+	      	<table class="table">
+	      		<thead>
+	      			<tr>
+	      				<th>Name</th>
+	      				<th>Event</th>
+	      				<th>Scores</th>
+	      				<th>Teams</th>
+	      				<th>Start</th>
+	      				<th>Primary Market</th>
 	      			</tr>
-      			{% endfor %}
-      		</tbody>
-      	</table>
-      </div>
+	      		</thead>
+	      		<tbody>
+	      			{% for event in events %}
+	      				<tr>
+			      			<td>{{ event.name }}</td>
+			      			<td>
+			      				{% if event.linkedEventTypeName is defined %}
+			      					{{ event.linkedEventTypeName }}
+			      				{% endif %}
+			      			</td>
+			      			<td>
+			      				{{ event.scores.home }}
+			      				{{ event.scores.away }}
+			      			</td>
+			      			<td>
+			      				{% for competitor in event.competitors %}
+			      					{{ competitor.name }}
+			      					{{ competitor.position }}
+			      				{% endfor %}
+			      			</td>
+			      			<td>{{ event.startTime|date('H:i') }}</td>
+			      			<td>
+			      				<strong>{{ event.primaryMarket.name }}</strong>
+			      				{% for outcome in event.outcomes %}
+			      					{{ outcome.type }} - {{ outcome.price.decimal }} - {{ outcome.price.num }}/{{ outcome.price.den }}<br>
+			      				{% endfor %}
+			      			</td>
+		      			</tr>
+	      			{% endfor %}
+	      		</tbody>
+	      	</table>
+      	</div>
 
     </main>
 
