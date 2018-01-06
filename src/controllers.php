@@ -14,12 +14,6 @@ $app['index.controller'] = function () use ($app) {
     );
 };
 
-// $app->get('/', function () use ($app) {
-//     return $app['twig']->render('index.html.twig', array());
-// })
-// ->bind('homepage');
-
-
 $app->error(function (\Exception $e, Request $request, $code) use ($app) {
     if ($app['debug']) {
         return;
@@ -36,4 +30,7 @@ $app->error(function (\Exception $e, Request $request, $code) use ($app) {
     return new Response($app['twig']->resolveTemplate($templates)->render(array('code' => $code)), $code);
 });
 
-$app->get('/test', 'index.controller:index');
+
+// Routes
+
+$app->get('/', 'index.controller:index');

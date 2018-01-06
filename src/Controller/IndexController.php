@@ -19,7 +19,8 @@ class IndexController
     public function index() {
 
         $response = $this->client->get(getenv('API_URL') . '/football/live');
-
+        
+        return $this->twig->render('index.html.twig');
         return json_encode($response->getBody()->getContents());
 
         return $this->twig->render('index.html.twig', array(
