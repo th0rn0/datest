@@ -48,7 +48,7 @@
 			      			</td>
 			      			<td>{{ event.startTime|date('H:i') }}</td>
 			      			<td>
-			      				<strong>{{ event.primaryMarket.name }}</strong>
+			      				<strong>{{ event.primaryMarket.name }}</strong><br>
 			      				{% for outcome in event.outcomes %}
 			      					{{ outcome.type }} - {{ outcome.price.decimal }} - {{ outcome.price.num }}/{{ outcome.price.den }}<br>
 			      				{% endfor %}
