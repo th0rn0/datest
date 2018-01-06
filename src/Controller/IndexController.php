@@ -37,27 +37,26 @@ class IndexController
         foreach ($body->events as $event) {
             $eventId = $event->eventId;
             $return[$eventId]['name']                   = $event->name;
+            $return[$eventId]['id']                     = $event->eventId;
             $return[$eventId]['displayOrder']           = $event->displayOrder;
             $return[$eventId]['linkedEventTypeName']    = $event->linkedEventTypeName;
             $return[$eventId]['scores']                 = $event->scores;
             $return[$eventId]['competitors']            = $event->competitors;
             $return[$eventId]['startTime']              = $event->startTime;
-            foreach ($body->markets as $markets) {
-                foreach ($markets as $market) {
-                    if ($market->eventId == $event->eventId) {
-                        $return[$eventId]['primaryMarket'] = $market;
-                    }
+            foreach ($body->markets as $marketEventId => $markets) {
+                if ($marketEventId == $eventId) {
+                    $return[$eventId]['primaryMarket'] = $markets{0};
                 }
             }
-            foreach ($body->outcomes as $marketId => $outcomes) {
-                if ($marketId == $return[$eventId]['primaryMarket']->marketId) {
+            foreach ($body->outcomes as $outcomeMarketId => $outcomes) {
+                if ($outcomeMarketId == $return[$eventId]['primaryMarket']->marketId) {
                     $return[$eventId]['outcomes'] = $outcomes;
                 }
             }
         }
 
         //DEBUG
-        // dump($return);
+        // dump($body->events);
         // dump($body->outcomes);
         // die();
 

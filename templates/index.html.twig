@@ -15,50 +15,30 @@
 
     <main role="main">
     	<h1>Live Events</h1><small>display primary market</small>
-      	<div class="row">
-	      	<table class="table">
-	      		<thead>
-	      			<tr>
-	      				<th>Name</th>
-	      				<th>Event</th>
-	      				<th>Scores</th>
-	      				<th>Teams</th>
-	      				<th>Start</th>
-	      				<th>Primary Market</th>
-	      			</tr>
-	      		</thead>
-	      		<tbody>
-	      			{% for event in events %}
-	      				<tr>
-			      			<td>{{ event.name }}</td>
-			      			<td>
-			      				{% if event.linkedEventTypeName is defined %}
-			      					{{ event.linkedEventTypeName }}
-			      				{% endif %}
-			      			</td>
-			      			<td>
-			      				{{ event.scores.home }}
-			      				{{ event.scores.away }}
-			      			</td>
-			      			<td>
-			      				{% for competitor in event.competitors %}
-			      					{{ competitor.name }}
-			      					{{ competitor.position }}
-			      				{% endfor %}
-			      			</td>
-			      			<td>{{ event.startTime|date('H:i') }}</td>
-			      			<td>
-			      				<strong>{{ event.primaryMarket.name }}</strong><br>
-			      				{% for outcome in event.outcomes %}
-			      					{{ outcome.type }} - {{ outcome.price.decimal }} - {{ outcome.price.num }}/{{ outcome.price.den }}<br>
-			      				{% endfor %}
-			      			</td>
-		      			</tr>
-	      			{% endfor %}
-	      		</tbody>
-	      	</table>
-      	</div>
-
+    	<button class="btn btn-primary" type="button" data-toggle="collapse" data-target=".multi-collapse" aria-expanded="false" aria-controls="primarymarketDiv">Toggle Primary Markets</button>
+    	<button class="btn btn-primary" type="button">Toggle Decimals/Fractions</button>
+      	<div class="row marketing">
+  			{% for event in events %}
+				<div class="col-lg-12">
+					<span class="pull-left">{{ event.startTime|date('H:i') }}</span>
+					<a href="/football/{{ event.id }}">
+						<h3>{{ event.name }}</h3>
+					</a>
+					<span class="pull-right">{{ event.scores.home }} - {{ event.scores.away }}</span>
+					<div class="row collapse multi-collapse" name="primaryMarketDiv">
+						<div class="col-lg-12">
+							<h5>{{ event.primaryMarket.name }}</h5>
+						</div>
+						{% for outcome in event.outcomes %}
+							<div class="col-lg-4 col-xs-4">
+	      						{{ outcome.type }} - {{ outcome.price.decimal }} - {{ outcome.price.num }}/{{ outcome.price.den }}
+	  						</div>
+	      				{% endfor %}
+      				</div>
+					<hr>
+				</div>
+			{% endfor %}
+        </div>
     </main>
 
     <footer class="footer">
