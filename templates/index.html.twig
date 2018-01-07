@@ -15,9 +15,27 @@
 
     <main role="main">
     	<h1>Live Events</h1><small>display primary market</small>
-    	<button class="btn btn-primary" type="button" data-toggle="collapse" data-target=".multi-collapse" aria-expanded="false" aria-controls="primarymarketDiv">Toggle Primary Markets</button>
+    	<button class="btn btn-primary" type="button" data-toggle="collapse" data-target=".multi-collapse-market" aria-expanded="false" aria-controls="primarymarketDiv">Toggle Primary Markets</button>
     	<button class="btn btn-primary" type="button">Toggle Decimals/Fractions</button>
+		<div class="custom-control custom-radio custom-control-inline">
+			<input type="radio" id="customRadioInline1" name="customRadioInline1" class="custom-control-input">
+			<label class="custom-control-label" for="customRadioInline1">Display Fractions</label>
+		</div>
+		<div class="custom-control custom-radio custom-control-inline">
+			<input type="radio" id="customRadioInline2" name="customRadioInline1" class="custom-control-input">
+			<label class="custom-control-label" for="customRadioInline2">Display Decimals</label>
+		</div>
+
+		<input checked data-toggle="toggle" data-on="Ready" data-off="Not Ready" data-onstyle="success" data-offstyle="danger" type="checkbox">
       	<div class="row marketing">
+      		<div class="card" style="width: 18rem;">
+			  <img class="card-img-top" src="..." alt="Card image cap">
+			  <div class="card-body">
+			    <h5 class="card-title">Card title</h5>
+			    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+			    <a href="#" class="btn btn-primary">Go somewhere</a>
+			  </div>
+			</div>
   			{% for event in events %}
 				<div class="col-lg-12">
 					<span class="pull-left">{{ event.startTime|date('H:i') }}</span>
@@ -25,13 +43,19 @@
 						<h3>{{ event.name }}</h3>
 					</a>
 					<span class="pull-right">{{ event.scores.home }} - {{ event.scores.away }}</span>
-					<div class="row collapse multi-collapse" name="primaryMarketDiv">
+					<div class="row collapse multi-collapse-market" name="primaryMarketDiv">
 						<div class="col-lg-12">
 							<h5>{{ event.primaryMarket.name }}</h5>
 						</div>
 						{% for outcome in event.outcomes %}
 							<div class="col-lg-4 col-xs-4">
-	      						{{ outcome.type }} - {{ outcome.price.decimal }} - {{ outcome.price.num }}/{{ outcome.price.den }}
+	      						{{ outcome.type }}
+	      						<div name="marketDecimalDiv">
+	      							{{ outcome.price.decimal }}
+      							</div>
+      							<div name="marketFractionDiv">
+      								{{ outcome.price.num }}/{{ outcome.price.den }}
+      							</div>
 	  						</div>
 	      				{% endfor %}
       				</div>

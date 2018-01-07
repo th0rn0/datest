@@ -14,6 +14,12 @@ $app['index.controller'] = function () use ($app) {
     );
 };
 
+$app['football.controller'] = function () use ($app) {
+    return new \FootballInterface\Controller\FootballController(
+        $app['twig'], $app['client']
+    );
+};
+
 $app->error(function (\Exception $e, Request $request, $code) use ($app) {
     if ($app['debug']) {
         return;
@@ -34,3 +40,4 @@ $app->error(function (\Exception $e, Request $request, $code) use ($app) {
 // Routes
 
 $app->get('/', 'index.controller:index');
+$app->get('/football/{eventId}', 'football.controller:show');
