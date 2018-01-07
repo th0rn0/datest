@@ -9,12 +9,12 @@ down:
 	
 install:
 	composer install
-	chmod 777 /var/cache/*
-	chmod 777 /var/log/*
-	docker-composer build
+	sudo chmod 777 /var/cache/*
+	sudo chmod 777 /var/log/*
+	docker-compose build
 
 install-dev:
 	composer install --dev
-	chmod 777 /var/cache/*
-	chmod 777 /var/log/*
-	docker-composer build
+	sudo chmod 777 /var/cache/*
+	sudo chmod 777 /var/log/*
+	docker-compose build
