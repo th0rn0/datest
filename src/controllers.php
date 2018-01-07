@@ -16,7 +16,7 @@ $app['index.controller'] = function () use ($app) {
 
 $app['football.controller'] = function () use ($app) {
     return new \FootballInterface\Controller\FootballController(
-        $app['twig'], $app['client']
+        $eventId, $app['twig'], $app['client']
     );
 };
 
@@ -35,7 +35,6 @@ $app->error(function (\Exception $e, Request $request, $code) use ($app) {
 
     return new Response($app['twig']->resolveTemplate($templates)->render(array('code' => $code)), $code);
 });
-
 
 // Routes
 
