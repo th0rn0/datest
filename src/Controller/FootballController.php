@@ -21,12 +21,10 @@ class FootballController
     public function show($eventId)
     {
         $url = getenv('API_URL') . '/sportsbook/event/' . $eventId;
-        
         $response = $this->client->get($url, ['http_errors' => false]);
         if ($response->getStatusCode() != 200) {
             return $this->twig->render('errors/'. $response->getStatusCode() . '.html.twig');
         }
-        
         return $this->twig->render('football/show.html.twig', array(
             'event' => ResponseTransformer::transformFootballEvent($response->getBody()->getContents())
         ));

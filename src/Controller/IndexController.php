@@ -21,12 +21,10 @@ class IndexController
     public function index(Request $request) 
     {
         $url = getenv('API_URL') . '/football/live?primaryMarkets=true';
-        
         $response = $this->client->get($url);
         if ($response->getStatusCode() != 200) {
             return $this->twig->render('errors/'. $response->getStatusCode() . '.html.twig');
         }
-
         return $this->twig->render('index.html.twig', array(
             'events' => ResponseTransformer::transformFootballOverview($response->getBody()->getContents())
         ));
