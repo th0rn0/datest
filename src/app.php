@@ -12,12 +12,12 @@ $app->register(new AssetServiceProvider());
 $app->register(new TwigServiceProvider());
 $app->register(new HttpFragmentServiceProvider());
 $app['twig'] = $app->extend('twig', function ($twig, $app) {
-    // add custom globals, filters, tags, ...
-
     return $twig;
 });
 
-$app['debug'] = true;
+if (getenv('DEBUG')) {
+	$app['debug'] = true;
+}
 
 $app['client'] = function() use($app) {
     return new \GuzzleHttp\Client();

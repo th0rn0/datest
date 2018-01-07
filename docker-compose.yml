@@ -23,6 +23,7 @@ services:
       - api
     environment:
       - API_URL=http://api:8888
+      - DEBUG=true
     networks:
       - custom
   api:

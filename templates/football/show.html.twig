@@ -2,168 +2,151 @@
 {% extends "layout.html.twig" %}
 
 {% block content %}
-<div class="container">
-    <header class="header clearfix">
-      <nav>
-        <ul class="nav nav-pills float-right">
-          <li class="nav-item">
-            <a class="nav-link active" href="/">Home <span class="sr-only">(current)</span></a>
-          </li>
-        </ul>
-      </nav>
-      <h3 class="text-muted">Skybet Test - js-tech-test</h3>
-    </header>
 
-    <main role="main">
-		<div class="jumbotron text-center">
-			<div class="container">
-				<h1 class="display-5">{{ event.competitors.home }} VS {{ event.competitors.away }}</h1>
-				{% if event.linkedEventTypeName is defined %}
-					<h3 class="display-6">{{ event.linkedEventTypeName }}</h3>
-				{% endif %}
-				<h5 class="display-6">Start: {{ event.startTime|date("H:i") }}</h5>
-				<p>{{ event.competitors.home }} <span class="text-danger"><strong>{{ event.scores.home }}</strong></span> - <span class="text-danger"><strong>{{ event.scores.away }}</strong></span> {{ event.competitors.away }} 
+<div class="jumbotron text-center">
+	<div class="container">
+		<h1 class="display-5">{{ event.competitors.home }} VS {{ event.competitors.away }}</h1>
+		{% if event.linkedEventTypeName is defined %}
+			<h3 class="display-6">{{ event.linkedEventTypeName }}</h3>
+		{% endif %}
+		<h5 class="display-6">Start: {{ event.startTime|date("H:i") }}</h5>
+		<p>{{ event.competitors.home }} <span class="text-danger"><strong>{{ event.scores.home }}</strong></span> - <span class="text-danger"><strong>{{ event.scores.away }}</strong></span> {{ event.competitors.away }} 
+	</div>
+</div>
+
+<div class="oddsDisplaySelectorDiv">
+	<div class="custom-control custom-radio custom-control-inline">
+		<input type="radio" id="oddsDisplayRadioInline1" name="oddsDisplayRadioInline1" class="custom-control-input oddsDisplayRadioInline" value="fra">
+		<label class="custom-control-label" for="oddsDisplayRadioInline1">Display Fractions</label>
+	</div>
+	<div class="custom-control custom-radio custom-control-inline">
+		<input type="radio" id="oddsDisplayRadioInline2" name="oddsDisplayRadioInline1" class="custom-control-input oddsDisplayRadioInline" value="dec">
+		<label class="custom-control-label" for="oddsDisplayRadioInline2">Display Decimals</label>
+	</div>
+</div>
+
+<script>
+	//DEBUG - Default me and session for choice?
+	$( document ).ready(function() {
+		$('.marketDecimalDiv').hide();
+    	$('.marketFractionDiv').show();
+    	$('#oddsDisplayRadioInline1').prop('checked', true);
+    	$('#oddsDisplayRadioInline2').prop('checked', false);
+	});
+		$(function() {
+	  $('.oddsDisplayRadioInline').change(function() {
+	    if($(this).val() == 'fra') {
+	    	$('.marketDecimalDiv').hide();
+	    	$('.marketFractionDiv').show();
+	    }
+	    if($(this).val() == 'dec') {
+	    	$('.marketDecimalDiv').show();
+	    	$('.marketFractionDiv').hide();
+	    } 
+	  });
+	});
+</script>
+
+	<div id="accordion" role="tablist">
+	{% for market in event.markets %}
+		<div class="card">
+			<div class="card-header" role="tab" id="heading{{market.name|capitalize}}">
+				<h5 class="mb-0">
+					<a data-toggle="collapse" href="#collapse{{market.name|capitalize}}" role="button" aria-expanded="true" aria-controls="collapse{{market.name|capitalize}}">
+			    		{{ market.name|capitalize }}
+					</a>
+				</h5>
 			</div>
-		</div>
 
-		<div class="oddsDisplaySelectorDiv">
-			<div class="custom-control custom-radio custom-control-inline">
-				<input type="radio" id="oddsDisplayRadioInline1" name="oddsDisplayRadioInline1" class="custom-control-input oddsDisplayRadioInline" value="fra">
-				<label class="custom-control-label" for="oddsDisplayRadioInline1">Display Fractions</label>
-			</div>
-			<div class="custom-control custom-radio custom-control-inline">
-				<input type="radio" id="oddsDisplayRadioInline2" name="oddsDisplayRadioInline1" class="custom-control-input oddsDisplayRadioInline" value="dec">
-				<label class="custom-control-label" for="oddsDisplayRadioInline2">Display Decimals</label>
-			</div>
-		</div>
-
-		<script>
-			//DEBUG - Default me and session for choice?
-			$( document ).ready(function() {
-				$('.marketDecimalDiv').hide();
-		    	$('.marketFractionDiv').show();
-		    	$('#oddsDisplayRadioInline1').prop('checked', true);
-		    	$('#oddsDisplayRadioInline2').prop('checked', false);
-			});
-	   		$(function() {
-			  $('.oddsDisplayRadioInline').change(function() {
-			    if($(this).val() == 'fra') {
-			    	$('.marketDecimalDiv').hide();
-			    	$('.marketFractionDiv').show();
-			    }
-			    if($(this).val() == 'dec') {
-			    	$('.marketDecimalDiv').show();
-			    	$('.marketFractionDiv').hide();
-			    } 
-			  });
-			});
-		</script>
-
-  		<div id="accordion" role="tablist">
-			{% for market in event.markets %}
-				<div class="card">
-					<div class="card-header" role="tab" id="heading{{market.name|capitalize}}">
-						<h5 class="mb-0">
-							<a data-toggle="collapse" href="#collapse{{market.name|capitalize}}" role="button" aria-expanded="true" aria-controls="collapse{{market.name|capitalize}}">
-					    		{{ market.name|capitalize }}
-							</a>
-						</h5>
-					</div>
-
-					<div id="collapse{{market.name|capitalize}}" class="collapse" role="tabpanel" aria-labelledby="heading{{market.name|capitalize}}" data-parent="#accordion">
-						<div class="card-body">
-							<div class="row">
-								{% if market.type == 'standard' %}
-									<table class="table table-striped">
-										<tbody>
-											{% for outcome in market.outcomes %}
-												<tr>
-													<td>
-														{{ outcome.name }}
-													</td>
-													<td width="25%">
-														<span class="marketDecimalDiv text-danger">
-															<strong>{{ outcome.price.decimal }}</strong>
-														</span>
-														<span class="marketFractionDiv text-danger">
-															<strong>{{ outcome.price.num }}/{{ outcome.price.den }}</strong>
-														</span>
-													</td>
-												</tr>
-											{% endfor %}
-										</tbody>
-									</table>
-								{% elseif market.type == 'correct-score' %}
-									<div class="col-lg-4">
-										<h5>HOME</h5>
-										{% for outcome in market.outcomes.home %}
-											{{ outcome.score.home }} - {{ outcome.score.away }}
-											<span class="marketDecimalDiv text-danger">
-				      							{{ outcome.price.decimal }}
-				  							</span>
-				  							<span class="marketFractionDiv text-danger">
-				  								{{ outcome.price.num }}/{{ outcome.price.den }}
-				  							</span>
-				  							<br>
-										{% endfor %}
-									</div>
-									<div class="col-lg-4">
-										<h5>DRAW</h5>
-										{% for outcome in market.outcomes.draw %}
-											{{ outcome.score.home }} - {{ outcome.score.away }}
-											<span class="marketDecimalDiv text-danger">
-				      							{{ outcome.price.decimal }}
-				  							</span>
-				  							<span class="marketFractionDiv text-danger">
-				  								{{ outcome.price.num }}/{{ outcome.price.den }}
-				  							</span>
-				  							<br>
-										{% endfor %}
-									</div>
-									<div class="col-lg-4">
-										<h5>AWAY</h5>
-										{% if market.outcomes.away is defined %}
-											{% for outcome in market.outcomes.away %}
-												{{ outcome.score.home }} - {{ outcome.score.away }}
-												<span class="marketDecimalDiv text-danger">
-					      							{{ outcome.price.decimal }}
-					  							</span>
-					  							<span class="marketFractionDiv text-danger">
-					  								{{ outcome.price.num }}/{{ outcome.price.den }}
-					  							</span>
-					  							<br>
-											{% endfor %}
-										{% endif %}
-									</div>
-								{% else %}
+			<div id="collapse{{market.name|capitalize}}" class="collapse" role="tabpanel" aria-labelledby="heading{{market.name|capitalize}}" data-parent="#accordion">
+				<div class="card-body">
+					<div class="row">
+						{% if market.type == 'standard' %}
+							<table class="table table-striped">
+								<tbody>
 									{% for outcome in market.outcomes %}
-										<div class="col-lg-4 col-xs-4">
-											<div class="alert alert-success">
-					      						{% if outcome.type is defined %}
-					      							<strong>{{ outcome.type|capitalize }}</strong>
-					  							{% endif %}
-					      						<div class="marketDecimalDiv">
-					      							{{ outcome.price.decimal }}
-					  							</div>
-					  							<div class="marketFractionDiv">
-					  								{{ outcome.price.num }}/{{ outcome.price.den }}
-					  							</div>
-											</div>
-										</div>
-					  				{% endfor %}
-				  				{% endif %}
+										<tr>
+											<td>
+												{{ outcome.name }}
+											</td>
+											<td width="25%">
+												<span class="marketDecimalDiv text-danger">
+													<strong>{{ outcome.price.decimal }}</strong>
+												</span>
+												<span class="marketFractionDiv text-danger">
+													<strong>{{ outcome.price.num }}/{{ outcome.price.den }}</strong>
+												</span>
+											</td>
+										</tr>
+									{% endfor %}
+								</tbody>
+							</table>
+						{% elseif market.type == 'correct-score' %}
+							<div class="col-lg-4">
+								<h5>HOME</h5>
+								{% for outcome in market.outcomes.home %}
+									{{ outcome.score.home }} - {{ outcome.score.away }}
+									<span class="marketDecimalDiv text-danger">
+		      							{{ outcome.price.decimal }}
+		  							</span>
+		  							<span class="marketFractionDiv text-danger">
+		  								{{ outcome.price.num }}/{{ outcome.price.den }}
+		  							</span>
+		  							<br>
+								{% endfor %}
 							</div>
-						</div>
+							<div class="col-lg-4">
+								<h5>DRAW</h5>
+								{% for outcome in market.outcomes.draw %}
+									{{ outcome.score.home }} - {{ outcome.score.away }}
+									<span class="marketDecimalDiv text-danger">
+		      							{{ outcome.price.decimal }}
+		  							</span>
+		  							<span class="marketFractionDiv text-danger">
+		  								{{ outcome.price.num }}/{{ outcome.price.den }}
+		  							</span>
+		  							<br>
+								{% endfor %}
+							</div>
+							<div class="col-lg-4">
+								<h5>AWAY</h5>
+								{% if market.outcomes.away is defined %}
+									{% for outcome in market.outcomes.away %}
+										{{ outcome.score.home }} - {{ outcome.score.away }}
+										<span class="marketDecimalDiv text-danger">
+			      							{{ outcome.price.decimal }}
+			  							</span>
+			  							<span class="marketFractionDiv text-danger">
+			  								{{ outcome.price.num }}/{{ outcome.price.den }}
+			  							</span>
+			  							<br>
+									{% endfor %}
+								{% endif %}
+							</div>
+						{% else %}
+							{% for outcome in market.outcomes %}
+								<div class="col-lg-4 col-xs-4">
+									<div class="alert alert-success">
+			      						{% if outcome.type is defined %}
+			      							<strong>{{ outcome.type|capitalize }}</strong>
+			  							{% endif %}
+			      						<div class="marketDecimalDiv">
+			      							{{ outcome.price.decimal }}
+			  							</div>
+			  							<div class="marketFractionDiv">
+			  								{{ outcome.price.num }}/{{ outcome.price.den }}
+			  							</div>
+									</div>
+								</div>
+			  				{% endfor %}
+		  				{% endif %}
 					</div>
 				</div>
-			
-			{% endfor %}
-		 
+			</div>
 		</div>
-    </main>
-
-    <footer class="footer">
-      <p>&copy; 2017</p>
-    </footer>
+	
+	{% endfor %}
+ 
 </div>
+
 {% endblock %}

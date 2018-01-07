@@ -7,16 +7,16 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 //Request::setTrustedProxies(array('127.0.0.1'));
-//
+
 $app['index.controller'] = function () use ($app) {
     return new \FootballInterface\Controller\IndexController(
-        $app['twig'], $app['client']
+        $app['twig'], $app['client'], new \FootballInterface\Transformer\ResponseTransformer()
     );
 };
 
 $app['football.controller'] = function () use ($app) {
     return new \FootballInterface\Controller\FootballController(
-        $eventId, $app['twig'], $app['client']
+        $eventId, $app['twig'], $app['client'], new \FootballInterface\Transformer\ResponseTransformer()
     );
 };
 
@@ -37,6 +37,5 @@ $app->error(function (\Exception $e, Request $request, $code) use ($app) {
 });
 
 // Routes
-
 $app->get('/', 'index.controller:index');
 $app->get('/football/{eventId}', 'football.controller:show');

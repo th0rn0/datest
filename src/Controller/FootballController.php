@@ -12,10 +12,11 @@ class FootballController
 
 	protected $client;
 
-    public function __construct($eventId, $twig, Client $client)
+    public function __construct($eventId, $twig, Client $client, ResponseTransformer $transformer)
     {
         $this->twig = $twig;
         $this->client = $client;
+        $this->transformer = $transformer;
     }
 
     public function show($eventId)
@@ -26,7 +27,7 @@ class FootballController
             return $this->twig->render('errors/'. $response->getStatusCode() . '.html.twig');
         }
         return $this->twig->render('football/show.html.twig', array(
-            'event' => ResponseTransformer::transformFootballEvent($response->getBody()->getContents())
+            'event' => $this->transformer->transformFootballEvent($response->getBody()->getContents())
         ));
     }
 }

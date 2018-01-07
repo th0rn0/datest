@@ -12,10 +12,11 @@ class IndexController
 
 	protected $client;
 
-    public function __construct($twig, Client $client)
+    public function __construct($twig, Client $client, ResponseTransformer $transformer)
     {
         $this->twig = $twig;
         $this->client = $client;
+        $this->transformer = $transformer;
     }
 
     public function index(Request $request) 
@@ -26,7 +27,7 @@ class IndexController
             return $this->twig->render('errors/'. $response->getStatusCode() . '.html.twig');
         }
         return $this->twig->render('index.html.twig', array(
-            'events' => ResponseTransformer::transformFootballOverview($response->getBody()->getContents())
+            'events' => $this->transformer->transformFootballOverview($response->getBody()->getContents())
         ));
     }
 }

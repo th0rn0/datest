@@ -1,112 +1,95 @@
 {% extends "layout.html.twig" %}
 
 {% block content %}
-<div class="container">
-    <header class="header clearfix">
-      <nav>
-        <ul class="nav nav-pills float-right">
-          <li class="nav-item">
-            <a class="nav-link active" href="/">Home <span class="sr-only">(current)</span></a>
-          </li>
-        </ul>
-      </nav>
-      <h3 class="text-muted">Skybet Test - js-tech-test</h3>
-    </header>
 
-    <main role="main">
-    	<h1>Live Events</h1>
+<h1>Live Events</h1>
 
-    	<div class="custom-control custom-radio custom-control-inline">
-			<input type="radio" id="marketDisplayRadioInline1" name="marketDisplayRadioInline1" class="custom-control-input marketDisplayRadioInline" value="hide">
-			<label class="custom-control-label" for="marketDisplayRadioInline1">Hide Markets</label>
-		</div>
-		<div class="custom-control custom-radio custom-control-inline">
-			<input type="radio" id="marketDisplayRadioInline2" name="marketDisplayRadioInline1" class="custom-control-input marketDisplayRadioInline" value="show">
-			<label class="custom-control-label" for="marketDisplayRadioInline2">Show Markets</label>
-		</div>
-
-		<div class="collapse oddsDisplaySelectorDiv">
-			<div class="custom-control custom-radio custom-control-inline">
-				<input type="radio" id="oddsDisplayRadioInline1" name="oddsDisplayRadioInline1" class="custom-control-input oddsDisplayRadioInline" value="fra">
-				<label class="custom-control-label" for="oddsDisplayRadioInline1">Display Fractions</label>
-			</div>
-			<div class="custom-control custom-radio custom-control-inline">
-				<input type="radio" id="oddsDisplayRadioInline2" name="oddsDisplayRadioInline1" class="custom-control-input oddsDisplayRadioInline" value="dec">
-				<label class="custom-control-label" for="oddsDisplayRadioInline2">Display Decimals</label>
-			</div>
-		</div>
-
-		<script>
-			//DEBUG - Default me and session for choice?
-			$( document ).ready(function() {
-		    	$('.oddsDisplaySelectorDiv').collapse('hide');
-				$('.marketDecimalDiv').hide();
-		    	$('.marketFractionDiv').show();
-		    	$('#marketDisplayRadioInline1').prop('checked', true);
-		    	$('#marketDisplayRadioInline2').prop('checked', false);
-		    	$('.primaryMarketDiv').collapse('hide');
-		    	$('#oddsDisplayRadioInline1').prop('checked', true);
-		    	$('#oddsDisplayRadioInline2').prop('checked', false);
-			});
-	   		$(function() {
-			  $('.oddsDisplayRadioInline').change(function() {
-			    if($(this).val() == 'fra') {
-			    	$('.marketDecimalDiv').hide();
-			    	$('.marketFractionDiv').show();
-			    }
-			    if($(this).val() == 'dec') {
-			    	$('.marketDecimalDiv').show();
-			    	$('.marketFractionDiv').hide();
-			    } 
-			  });
-			  $('.marketDisplayRadioInline').change(function() {
-			    	$('.primaryMarketDiv').collapse($(this).val());
-		    		$('.oddsDisplaySelectorDiv').collapse($(this).val());
-			  });
-			});
-		</script>
-
-      	<div class="row">
-  			{% for event in events %}
-  				<div class="col-lg-6 col-sm-12">
-  					<a href="/football/{{ event.id }}">
-		  				<div class="card">
-							<div class="card-body">
-								<h6 class="card-title">{{ event.name }}</h6>
-								<h6 class="card-subtitle mb-2"><span class="badge badge-primary">{{ event.scores.home }} - {{ event.scores.away }}</span></h6>
-								<div class="row collapse primaryMarketDiv card-text">
-									<div class="col-lg-12">
-										<h5>{{ event.primaryMarket.name }}</h5>
-									</div>
-									<div class="container">
-										<div class="row">
-											{% for outcome in event.outcomes %}
-												<div class="col-lg-4 col-xs-4">
-													<div class="alert alert-success">
-							      						<strong>{{ outcome.type|capitalize }}</strong>
-							      						<div class="marketDecimalDiv">
-							      							{{ outcome.price.decimal }}
-						      							</div>
-						      							<div class="marketFractionDiv">
-						      								{{ outcome.price.num }}/{{ outcome.price.den }}
-						      							</div>
-					      							</div>
-						  						</div>
-						      				{% endfor %}
-					      				</div>
-				      				</div>
-			      				</div>
-							</div>
-						</div>
-						<br>
-					</a>
-				</div>
-			{% endfor %}
-        </div>
-    </main>
-
-    <footer class="footer">
-      <p>&copy; 2017</p>
-    </footer>
+<div class="custom-control custom-radio custom-control-inline">
+	<input type="radio" id="marketDisplayRadioInline1" name="marketDisplayRadioInline1" class="custom-control-input marketDisplayRadioInline" value="hide">
+	<label class="custom-control-label" for="marketDisplayRadioInline1">Hide Markets</label>
 </div>
+<div class="custom-control custom-radio custom-control-inline">
+	<input type="radio" id="marketDisplayRadioInline2" name="marketDisplayRadioInline1" class="custom-control-input marketDisplayRadioInline" value="show">
+	<label class="custom-control-label" for="marketDisplayRadioInline2">Show Markets</label>
+</div>
+
+<div class="collapse oddsDisplaySelectorDiv">
+	<div class="custom-control custom-radio custom-control-inline">
+		<input type="radio" id="oddsDisplayRadioInline1" name="oddsDisplayRadioInline1" class="custom-control-input oddsDisplayRadioInline" value="fra">
+		<label class="custom-control-label" for="oddsDisplayRadioInline1">Display Fractions</label>
+	</div>
+	<div class="custom-control custom-radio custom-control-inline">
+		<input type="radio" id="oddsDisplayRadioInline2" name="oddsDisplayRadioInline1" class="custom-control-input oddsDisplayRadioInline" value="dec">
+		<label class="custom-control-label" for="oddsDisplayRadioInline2">Display Decimals</label>
+	</div>
+</div>
+
+<script>
+	//DEBUG - Default me and session for choice?
+	$( document ).ready(function() {
+    	$('.oddsDisplaySelectorDiv').collapse('hide');
+		$('.marketDecimalDiv').hide();
+    	$('.marketFractionDiv').show();
+    	$('#marketDisplayRadioInline1').prop('checked', true);
+    	$('#marketDisplayRadioInline2').prop('checked', false);
+    	$('.primaryMarketDiv').collapse('hide');
+    	$('#oddsDisplayRadioInline1').prop('checked', true);
+    	$('#oddsDisplayRadioInline2').prop('checked', false);
+	});
+		$(function() {
+	  $('.oddsDisplayRadioInline').change(function() {
+	    if($(this).val() == 'fra') {
+	    	$('.marketDecimalDiv').hide();
+	    	$('.marketFractionDiv').show();
+	    }
+	    if($(this).val() == 'dec') {
+	    	$('.marketDecimalDiv').show();
+	    	$('.marketFractionDiv').hide();
+	    } 
+	  });
+	  $('.marketDisplayRadioInline').change(function() {
+	    	$('.primaryMarketDiv').collapse($(this).val());
+    		$('.oddsDisplaySelectorDiv').collapse($(this).val());
+	  });
+	});
+</script>
+
+<div class="row">
+	{% for event in events %}
+		<div class="col-lg-6 col-sm-12">
+			<a href="/football/{{ event.id }}">
+  				<div class="card">
+					<div class="card-body">
+						<h6 class="card-title">{{ event.name }}</h6>
+						<h6 class="card-subtitle mb-2"><span class="badge badge-primary">{{ event.scores.home }} - {{ event.scores.away }}</span></h6>
+						<div class="row collapse primaryMarketDiv card-text">
+							<div class="col-lg-12">
+								<h5>{{ event.primaryMarket.name }}</h5>
+							</div>
+							<div class="container">
+								<div class="row">
+									{% for outcome in event.outcomes %}
+										<div class="col-lg-4 col-xs-4">
+											<div class="alert alert-success">
+					      						<strong>{{ outcome.type|capitalize }}</strong>
+					      						<div class="marketDecimalDiv">
+					      							{{ outcome.price.decimal }}
+				      							</div>
+				      							<div class="marketFractionDiv">
+				      								{{ outcome.price.num }}/{{ outcome.price.den }}
+				      							</div>
+			      							</div>
+				  						</div>
+				      				{% endfor %}
+			      				</div>
+		      				</div>
+	      				</div>
+					</div>
+				</div>
+				<br>
+			</a>
+		</div>
+	{% endfor %}
+</div>
+
 {% endblock %}
