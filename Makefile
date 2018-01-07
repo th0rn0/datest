@@ -9,7 +9,7 @@ down:
 	
 install:
 	docker run --rm --interactive --tty \
-    --volume $PWD:/app \
+    --volume $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST)))):/app \
     --user $(id -u):$(id -g) \
     composer install
 
@@ -18,7 +18,10 @@ install:
 	docker-compose build
 
 install-dev:
-	composer install --dev
+	docker run --rm --interactive --tty \
+    --volume $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST)))):/app \
+    --user $(id -u):$(id -g) \
+    composer install --dev
 	sudo chmod 777 /var/cache/*
 	sudo chmod 777 /var/log/*
 	docker-compose build
