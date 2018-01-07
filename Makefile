@@ -1,6 +1,12 @@
 run:
+	docker-compose up -d
+
+dev:
 	docker-compose up
 
+down:
+	docker-compose down
+	
 install:
 	composer install
 	chmod 777 /var/cache/*
