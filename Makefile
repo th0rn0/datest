@@ -1,9 +1,12 @@
+## Run Detached
 run:
 	docker-compose up -d
 
+## Run with Debug
 dev:
 	docker-compose up
 
+## Stop all containers
 down:
 	docker-compose down
 	
@@ -25,3 +28,7 @@ install-dev:
 	sudo chmod 777 /var/cache/*
 	sudo chmod 777 /var/log/*
 	docker-compose build
+
+## PHPUnit
+test:
+	vendor/bin/phpunit
