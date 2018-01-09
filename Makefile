@@ -15,9 +15,6 @@ install:
     --volume $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST)))):/app \
     --user $(id -u):$(id -g) \
     composer install
-
-	sudo chmod 777 /var/cache/*
-	sudo chmod 777 /var/log/*
 	docker-compose build
 
 install-dev:
@@ -25,8 +22,6 @@ install-dev:
     --volume $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST)))):/app \
     --user $(id -u):$(id -g) \
     composer install --dev
-	sudo chmod 777 /var/cache/*
-	sudo chmod 777 /var/log/*
 	docker-compose build
 
 ## PHPUnit
